@@ -1,11 +1,15 @@
 import { User } from '../../entities/users/User';
 import { UserEntity, UserEntityFromMockImp } from '../../entities/users/UserEntity';
+import {
+    HttpResponse,
+    HttpResponseSuccess
+} from '../../HttpResponse/HttpResponse';
 
 interface UsersCreator {
     userEntity: UserEntity;
-    createUser(user: any): Promise<User[]>;
-    updateUser(id: String, user: any): Promise<User[]>;
-    deleteUser(id: String): Promise<User[]>;
+    createUser(user: any): Promise<HttpResponse<string>>;
+    updateUser(id: String, user: any): Promise<HttpResponse<string>>;
+    deleteUser(id: String): Promise<HttpResponse<string>>;
 
 }
 
@@ -25,19 +29,22 @@ class UsersCreatorImp {
         return UsersCreatorImp.instance;
     }
 
-    public async createUser(user: any): Promise<User[]> {
-        const users: User[] = this.userEntity.createUser(user);
-        return users;
+    public async createUser(user: any): Promise<HttpResponse<string>> {
+        await this.userEntity.createUser(user);
+        const response = new HttpResponseSuccess<string>("created successful!");
+        return response;
     }
 
-    public async updateUser(id: String, user: any): Promise<User[]> {
-        const users: User[] = this.userEntity.updateByid(id, user);
-        return users;
+    public async updateUser(id: String, user: any): Promise<HttpResponse<string>> {
+        await this.userEntity.updateByid(id, user);
+        const response = new HttpResponseSuccess<string>(`updated at id:${id} successful!`);
+        return response;
     }
 
-    public async deleteUser(id: String): Promise<User[]> {
-        const users: User[] = this.userEntity.deleteByid(id);
-        return users;
+    public async deleteUser(id: String): Promise<HttpResponse<string>> {
+        await this.userEntity.deleteByid(id);
+        const response = new HttpResponseSuccess<string>(`deleted at id:${id} successful!`);
+        return response;
     }
 }
 

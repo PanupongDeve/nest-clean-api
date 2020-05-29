@@ -28,7 +28,9 @@ abstract class UserUtility implements UserEntity {
     abstract deleteByid(id: String): User[];
 
     public mappingFromDataSourceToUsers(users: any[]): User[] {
-        const mappedUsers: User[] = users.map((user) => {
+        const filteredUsers = users.filter((user) => user !== null);
+
+        const mappedUsers: User[] = filteredUsers.map((user) => {
             return new UserImp(user);
         });
 
@@ -101,6 +103,7 @@ class UserEntityFromMockImp extends UserUtility implements UserEntity {
             if (Number(user.id) === Number(id)) {
                 const indexId = Number(id);
                 let userUpdated:User = this.updateUserMockAttribute(users[indexId], userMapped);
+                usersMock[indexId] = userUpdated;
                 return userUpdated;
             } else {
                 return user;

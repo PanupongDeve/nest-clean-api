@@ -2,43 +2,45 @@ import { Controller, Get, Post, Req, Request, HttpCode, Param, Put, Patch, Body,
 import { User } from '../../core/entities/users/User';
 import { usersPresenter } from '../../core/useCases/users/UsersPresenter';
 import { usersCreator } from '../../core/useCases/users/UsersCreator';
-
+import {
+  HttpResponse
+} from '../../core/HttpResponse/HttpResponse';
 
 @Controller('v1/users')
 export class UsersController {
   constructor() {}
 
   @Get()
-  async getUsers(): Promise<User[]> {
-    const users = await usersPresenter.getUsers();
+  async getUsers(): Promise<HttpResponse<User[]>> {
+    const response = await usersPresenter.getUsers();
 
-    return users;
+    return response;
   }
 
   @Get(':id')
-  async getUsersById(@Param('id') id): Promise<User> {
-    const user = await usersPresenter.getUserById(id);
-    return user;
+  async getUsersById(@Param('id') id): Promise<HttpResponse<User>> {
+    const response = await usersPresenter.getUserById(id);
+    return response;
   }
 
   @Post()
-  async createUser(@Body() body): Promise<User[]> {
+  async createUser(@Body() body): Promise<HttpResponse<string>> {
     
-    const users = await usersCreator.createUser(body);
+    const response = await usersCreator.createUser(body);
 
-    return users;
+    return response;
   }
 
   @Patch(':id')
-  async updateUser(@Body() body, @Param('id') id): Promise<User[]> {
-    const users = await usersCreator.updateUser(id, body);
-    return users;
+  async updateUser(@Body() body, @Param('id') id): Promise<HttpResponse<string>> {
+    const response = await usersCreator.updateUser(id, body);
+    return response;
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') id): Promise<User[]> {
-    const users = await usersCreator.deleteUser(id);
+  async deleteUser(@Param('id') id): Promise<HttpResponse<string>> {
+    const response = await usersCreator.deleteUser(id);
 
-    return users
+    return response;
   }
 }
