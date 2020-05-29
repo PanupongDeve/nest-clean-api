@@ -4,7 +4,7 @@ import { usersPresenter } from '../../core/useCases/users/UsersPresenter';
 import { usersCreator } from '../../core/useCases/users/UsersCreator';
 
 
-@Controller('api/users')
+@Controller('v1/users')
 export class UsersController {
   constructor() {}
 
