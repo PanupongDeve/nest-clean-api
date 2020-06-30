@@ -1,31 +1,17 @@
-interface User {
-    id: String;
-    firstName: String;
-    lastName: String;
+class User {
+    id: string;
+    firstName: string;
+    lastName: string;
 
-}
-
-class UserImp implements User {
-    id: String;
-    firstName: String;
-    lastName: String;
-
-    constructor(user: any) {
-        const {
-            id,
-            firstName,
-            lastName
-        } = user;
-
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.id = id;
+    constructor(user: User) {
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.id = user.id;
     }
 
 }
 
 
 export {
-    User,
-    UserImp
+    User
 }
