@@ -1,5 +1,5 @@
 import { User } from '../../entities/users/User';
-import { usersMock } from '../../services/mocks/usersMock';
+import { usersMock } from '../../dataSource/mocks/usersMock';
 import { DataSource } from '../../constant/Enum';
 import { utils } from '../../utils';
 
