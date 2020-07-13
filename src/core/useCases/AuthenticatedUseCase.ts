@@ -1,4 +1,6 @@
 import { DtoAuthenticatedUser } from '../entities/users/DtoAuthenticatedUser';
+import { DtoRegisteredUser } from '../entities/users/DtoRegisteredUser';
+import { DtoForUserSaveToken } from '../entities/users/DtoForUserSaveToken';
 import { JwtRepository } from '../repositories/authentication/JwtRepository';
 import { JwtHelper } from '../helper/JwtHelper/JwtHelper';
 import {
@@ -31,7 +33,8 @@ class AuthenticatedUseCase {
             const userAuthenticated = await this.jwtRepository.getUserByUsername(user.username);
 
             if ((user.username === userAuthenticated.username) && (user.password === userAuthenticated.password)) {
-                const token = await this.jwtHelper.generateToken(userAuthenticated);
+                const userSaveToken = new DtoForUserSaveToken(userAuthenticated);
+                const token = await this.jwtHelper.generateToken(userSaveToken);
                 const dataReponse = {
                     token
                 }
@@ -46,12 +49,36 @@ class AuthenticatedUseCase {
         }
     }
 
-    async Register() {
-
+    async Register(data) {
+        try {
+            const user = new DtoRegisteredUser(data);
+            if (user.password === user.passwordConfirm) {
+                const userForSaveDataSource = new DtoAuthenticatedUser(user);
+                const userRegistered = await this.jwtRepository.saveUserRegisterd(userForSaveDataSource);
+                const userSaveToken = new DtoForUserSaveToken(userRegistered);
+                const token = await this.jwtHelper.generateToken(userSaveToken);
+                const dataReponse = {
+                    token
+                }
+                const response = new HttpResponseSuccess<any>(dataReponse);
+                return response;
+            } else {
+                throw "Authenticated fail!";
+            }
+        } catch (error) {
+            const responseErr = new HttpResponseError<any>(error);
+            return responseErr;
+        }
     }
 
-    async verifyToken() {
-
+    async decodedToken(token) {
+        try {
+            const decodedToken = await this.jwtHelper.decodedToken(token);
+            return decodedToken;
+        } catch (error) {
+            const responseErr = new HttpResponseError<any>(error);
+            return responseErr;
+        }
     }
 }
 

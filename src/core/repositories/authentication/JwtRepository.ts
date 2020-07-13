@@ -12,4 +12,12 @@ export class JwtRepository {
             return authenticatedUser;
         } 
     }
+
+
+    async saveUserRegisterd(user) {
+        const dataSourceSelected = DataSource.Mock;
+        if (dataSourceSelected === DataSource.Mock) {
+            return user;
+        } 
+    }
 }
