@@ -9,6 +9,9 @@ services:
       - private_network
     environment:
       - PORT=3000
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+      - REDIS_CACHED_ALIVE=300
     restart: always
   redis:
     container_name: redis
