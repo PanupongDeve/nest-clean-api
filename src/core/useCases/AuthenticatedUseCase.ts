@@ -8,6 +8,8 @@ import {
     HttpResponseSuccess
 } from '../helper/HttpResponse/HttpResponse';
 
+import { DataSource } from '../constant/Enum';
+
 class AuthenticatedUseCase {
     jwtRepository: JwtRepository;
     jwtHelper: JwtHelper;
@@ -30,7 +32,7 @@ class AuthenticatedUseCase {
         
         try {
             const user = new DtoAuthenticatedUser(data);
-            const userAuthenticated = await this.jwtRepository.getUserByUsername(user.username);
+            const userAuthenticated = await this.jwtRepository.getUserByUsername(user.username, { dataSource: DataSource.Mock });
 
             if ((user.username === userAuthenticated.username) && (user.password === userAuthenticated.password)) {
                 const userSaveToken = new DtoForUserSaveToken(userAuthenticated);
@@ -54,7 +56,7 @@ class AuthenticatedUseCase {
             const user = new DtoRegisteredUser(data);
             if (user.password === user.passwordConfirm) {
                 const userForSaveDataSource = new DtoAuthenticatedUser(user);
-                const userRegistered = await this.jwtRepository.saveUserRegisterd(userForSaveDataSource);
+                const userRegistered = await this.jwtRepository.saveUserRegisterd(userForSaveDataSource, { dataSource: DataSource.Mock });
                 const userSaveToken = new DtoForUserSaveToken(userRegistered);
                 const token = await this.jwtHelper.generateToken(userSaveToken);
                 const dataReponse = {

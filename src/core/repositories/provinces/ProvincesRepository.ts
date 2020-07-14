@@ -3,10 +3,8 @@ import { provinces } from '../../dataSource/mocks/provincesMock';
 
 
 class ProvincesRepository {
-    public async getProvinces(): Promise<any> {
-        const dataSourceSelected = DataSource.Mock;
-
-        if (dataSourceSelected === DataSource.Mock) {
+    public async getProvinces({ dataSource }): Promise<any> {
+        if (dataSource === DataSource.Mock) {
             return provinces;
         }   
     }

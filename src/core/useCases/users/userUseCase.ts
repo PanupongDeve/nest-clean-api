@@ -5,6 +5,7 @@ import {
     HttpResponseError,
     HttpResponseSuccess
 } from '../../helper/HttpResponse/HttpResponse';
+import { DataSource } from '../../constant/Enum';
 
 class UserUseCase {
     userRepository: UserRepository;
@@ -25,7 +26,7 @@ class UserUseCase {
 
     public async createUser(user: any): Promise<HttpResponse<User[]>> {
         try {
-            const users: User[] = await this.userRepository.createUser(user)
+            const users: User[] = await this.userRepository.createUser(user, { dataSource: DataSource.Mock })
             const response = new HttpResponseSuccess<User[]>(users);
             return response;
         } catch (error) {
@@ -39,7 +40,7 @@ class UserUseCase {
 
     public async updateUser(id: string, user: any): Promise<HttpResponse<string>> {
         try {
-            await this.userRepository.updateByid(id, user);
+            await this.userRepository.updateByid(id, user, { dataSource: DataSource.Mock });
             const response = new HttpResponseSuccess<string>(`updated at id:${id} successful!`);
             return response;
         } catch (error) {
@@ -50,7 +51,7 @@ class UserUseCase {
 
     public async deleteUser(id: string): Promise<HttpResponse<string>> {
         try {
-            await this.userRepository.deleteByid(id);
+            await this.userRepository.deleteByid(id, { dataSource: DataSource.Mock });
             const response = new HttpResponseSuccess<string>(`deleted at id:${id} successful!`);
             return response;
         } catch (error) {
@@ -61,7 +62,7 @@ class UserUseCase {
 
     public async getUsers(): Promise<HttpResponse<User[]>> {
         try {
-            const users: User[] = await this.userRepository.getUsers();
+            const users: User[] = await this.userRepository.getUsers({ dataSource: DataSource.Mock });
             const response = new HttpResponseSuccess<User[]>(users);
             return response;
         } catch (error) {
@@ -74,7 +75,7 @@ class UserUseCase {
 
     public async getUserById(id: string): Promise<HttpResponse<User>> {
         try {
-            const user: User = await this.userRepository.getUserById(id);
+            const user: User = await this.userRepository.getUserById(id, { dataSource: DataSource.Mock });
             const response = new HttpResponseSuccess<User>(user);
             return response;
         } catch (error) {

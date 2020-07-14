@@ -3,6 +3,7 @@ import {
     HttpResponseError,
     HttpResponseSuccess
 } from '../helper/HttpResponse/HttpResponse';
+import { DataSource } from '../constant/Enum';
 
 class HealthCheckUseCase {
     private static instance: HealthCheckUseCase;
@@ -22,7 +23,7 @@ class HealthCheckUseCase {
 
     async getProvinces() {
         try {
-            const provices = await this.provincesRepository.getProvinces();
+            const provices = await this.provincesRepository.getProvinces({ dataSource: DataSource.Mock });
             const response = new HttpResponseSuccess<any>(provices);
             return response;
         } catch (error) {

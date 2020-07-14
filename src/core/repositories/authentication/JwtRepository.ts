@@ -4,19 +4,16 @@ import { DtoAuthenticatedUser } from '../../entities/users/DtoAuthenticatedUser'
 
 export class JwtRepository {
     
-    async getUserByUsername(username: string)  {
-        const dataSourceSelected = DataSource.Mock;
-
-        if (dataSourceSelected === DataSource.Mock) {
+    async getUserByUsername(username: string, { dataSource })  {
+        if (dataSource === DataSource.Mock) {
             const authenticatedUser = new DtoAuthenticatedUser(authenticatedUserMock);
             return authenticatedUser;
         } 
     }
 
 
-    async saveUserRegisterd(user) {
-        const dataSourceSelected = DataSource.Mock;
-        if (dataSourceSelected === DataSource.Mock) {
+    async saveUserRegisterd(user, { dataSource }) {
+        if (dataSource === DataSource.Mock) {
             return user;
         } 
     }
