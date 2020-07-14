@@ -1,28 +1,32 @@
-FROM node:12-alpine As development
+FROM node:12-alpine as builder
 
-WORKDIR /usr/src/app
+USER node
+WORKDIR /home/node
 
-COPY package*.json ./
+COPY . /home/node
+RUN id
+USER root
+RUN apk --no-cache add --virtual native-deps \
+  g++ gcc libgcc libstdc++ linux-headers make python && \
+  npm install --quiet node-gyp -g &&\
+  npm install --quiet && \
+  apk del native-deps
 
-RUN npm install --only=development
 
-COPY . .
-
+USER node
+RUN npm install
 RUN npm run build
 
-FROM node:12-alpine as production
+# ---
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+FROM node:12-alpine
 
-WORKDIR /usr/src/app
 
-COPY package*.json ./
+USER node
+WORKDIR /home/node
+COPY --from=builder /home/node/package*.json /home/node/
+COPY --from=builder /home/node/node_modules/ /home/node/node_modules/
+COPY --from=builder /home/node/dist/ /home/node/dist/
 
-RUN npm install --only=production
 
-COPY . .
-
-COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["npm", "run", "start:prod"]
+CMD ["npm","run","start:prod"]

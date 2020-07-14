@@ -1,0 +1,16 @@
+version: "3.8"
+services: 
+  nest_service:
+    container_name: nest_service
+    build: .
+    ports:
+      - 3000:3000
+    networks:
+      - private_network
+    environment:
+      - PORT=3000
+    restart: always
+  
+networks:
+    private_network:
+      name: private_network

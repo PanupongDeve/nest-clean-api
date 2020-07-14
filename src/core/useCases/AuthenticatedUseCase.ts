@@ -39,7 +39,7 @@ class AuthenticatedUseCase {
                     token
                 }
                 const response = new HttpResponseSuccess<any>(dataReponse);
-            return response;
+                return response;
             } else {
                 throw "Authenticated fail!";
             }    

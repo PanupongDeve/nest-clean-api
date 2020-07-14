@@ -1,7 +1,6 @@
 import { User } from '../../entities/users/User';
 import { usersMock } from '../../dataSource/mocks/usersMock';
 import { DataSource } from '../../constant/Enum';
-import { utils } from '../../utils';
 
 class UserRepository {
     public async getUsers(): Promise<User[]> {
