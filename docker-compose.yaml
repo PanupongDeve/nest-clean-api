@@ -10,7 +10,25 @@ services:
     environment:
       - PORT=3000
     restart: always
-  
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
+    ports:
+    - "6379:6379"
+    networks:
+      - private_network
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+    - REDIS_HOSTS=redis_server:redis:6379
+    ports:
+    - "8081:8081"
+    networks:
+      - private_network
 networks:
     private_network:
       name: private_network

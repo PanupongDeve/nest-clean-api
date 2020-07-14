@@ -23,9 +23,20 @@ class HealthCheckUseCase {
 
     async getProvinces() {
         try {
-            const provices = await this.provincesRepository.getProvinces({ dataSource: DataSource.Mock });
-            const response = new HttpResponseSuccess<any>(provices);
-            return response;
+            const provincesFromCache = await this.provincesRepository.getProvinces({ dataSource: DataSource.REDIS });
+
+            if (provincesFromCache !== null) {
+                const responseFromCache = new HttpResponseSuccess<any>(provincesFromCache);
+                return responseFromCache;
+            } else {
+                const provices = await this.provincesRepository.getProvinces({ dataSource: DataSource.Mock });
+                await this.provincesRepository.saveProvinces(provices, { dataSource: DataSource.REDIS });
+                const response = new HttpResponseSuccess<any>(provices);
+                return response;
+            }
+
+            
+            
         } catch (error) {
             const responseErr = new HttpResponseError<any>(error);
             return responseErr;

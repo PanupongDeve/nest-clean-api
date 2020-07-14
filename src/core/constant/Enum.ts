@@ -1,6 +1,7 @@
 enum DataSource {
     Mock,
-    SQL
+    SQL,
+    REDIS
 }
 
 
