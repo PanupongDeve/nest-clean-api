@@ -41,8 +41,17 @@ class HealthCheckUseCase {
             const responseErr = new HttpResponseError<any>(error);
             return responseErr;
         }
+    }
 
-        return ;
+    async getHeltzCheck() {
+        try {
+          
+            const response = new HttpResponseSuccess<any>('success');
+            return response;
+        } catch (error) {
+            const responseErr = new HttpResponseError<any>(error);
+            return responseErr;
+        }
     }
 }
 

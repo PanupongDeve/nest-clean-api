@@ -7,7 +7,7 @@ export class HealthCheckController {
     
   @Get()
   async getUsers(): Promise<HttpResponse<any>> {
-    const response = await healthCheckUseCase.getProvinces();
+    const response = await healthCheckUseCase.getHeltzCheck();
     return response;
   }
 }

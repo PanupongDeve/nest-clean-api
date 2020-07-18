@@ -6,7 +6,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
 
 import { ScheduleModule } from '@nestjs/schedule';
 @Module({
-  imports: [UsersModule, AuthModule, HealthCheckModule, ScheduleModule.forRoot(), TasksModule],
+  imports: [UsersModule, AuthModule, HealthCheckModule],
   controllers: [],
   providers: [],
 })
