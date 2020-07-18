@@ -7,4 +7,4 @@ echo "##################### Heroku login ######################"
 heroku login
 git push heroku master
 
-./bash/heroku/logs-server.sh
+./deploy/heroku/logs-server.sh

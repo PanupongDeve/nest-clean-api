@@ -16,4 +16,4 @@ git push origin master
 heroku config:set NPM_CONFIG_PRODUCTION=false
 git push heroku master
 
-./bash/heroku/logs-server.sh
+./deploy/heroku/logs-server.sh
